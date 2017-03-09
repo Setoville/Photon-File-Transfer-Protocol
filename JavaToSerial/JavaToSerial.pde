@@ -29,7 +29,7 @@ void setup(){
 }
 
 void draw() {
- //myPort.write('0');
+ myPort.write('0');
  if (mySwitch>0){
  readData("C:/Users/andrewseto/Desktop/mySensorData.txt");
  
