@@ -17,6 +17,7 @@ void loop() {
  if (Serial.available()) {
  
  byteRead = Serial.read();
+ Serial.print(byteRead);
  byteRead=byteRead-'0';
  
  //Turn off all LEDs if the byte Read = 0
