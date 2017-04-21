@@ -8,25 +8,38 @@ Serial myPort;
 int chararrayiterator = 0;
 boolean write = true;
 int globalClk = 0;
-int [] doneEncoding;
+int [] encodedBits;
 
 
 int[] encode(char s){
   int ascii = (int) s;
   int encodedvalue[] = new int [8];
   int startBitPosition = 128;
-  for(int r=0;r<8;r++){
+  bigloop:for(int r=0;r<8;r++){
     
     if (ascii - startBitPosition < 0){
-      startBitPosition = startBitPosition/2;
+      encodedvalue[r]=0;
     }
     else if (ascii - startBitPosition > 0){
-      
+       encodedvalue[r]=1;
+       ascii=ascii-startBitPosition;
+
     }
     else if (ascii - startBitPosition == 0){
       encodedvalue[r]=1;
+      ascii=ascii-startBitPosition;
+
+      break bigloop;
     }
+
+    startBitPosition = startBitPosition/2;
+
   }
+  for(int r=0;r<8;r++)
+    System.out.print(encodedvalue[r]);
+    
+    System.out.println();
+
   return encodedvalue;
 }
 
@@ -39,11 +52,12 @@ void setup(){
 
 void draw() {
 readData("C:/Users/andrewseto/Desktop/mySensorData.txt");
-System.out.print(chararrayiterator);
+//System.out.print(chararrayiterator);
 
-System.out.println(myCharArray[chararrayiterator]);
+//System.out.println(myCharArray[chararrayiterator]);
 
-encode(myCharArray[chararrayiterator]);
+
+encodedBits = encode(myCharArray[chararrayiterator]);
 
 if (write && globalClk<3){
  myPort.write('1');
